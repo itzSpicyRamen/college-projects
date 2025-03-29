@@ -1,0 +1,11 @@
+{
+  "devDependencies": {
+    "html-loader": "^4.2.0"
+  },
+  "dependencies": {
+    "leaflet.heat": "^0.2.0",
+    "react-bootstrap": "^2.7.0",
+    "react-icons": "^4.6.0",
+    "recharts": "^2.2.0"
+  }
+}

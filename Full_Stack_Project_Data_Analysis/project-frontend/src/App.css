@@ -1,0 +1,96 @@
+.App {
+  text-align: center;
+  color: blue;
+}
+
+body {
+  background: linear-gradient(359deg, #691225, #32427c, #1a1a1a, #1a1a1a)  no-repeat center center fixed;
+}
+
+/* Tab Container */
+.Tabs {
+  width: 80%;
+  height: auto;
+  min-height: 400px;
+  background: rgba(0,0,0, 0.5);
+  margin: 3.5rem auto 1.5rem;
+  padding: 2rem 1rem;
+  color: #E8F0F2;
+  border-radius: 2rem;
+  @media (max-width: 769px) {
+    padding: 2rem 0;
+  }
+  font-family: 'Karla', sans-serif;
+  text-shadow: 0px 1px 4px #000000;
+  font-weight: 900;
+}
+ 
+/* Tab Navigation */
+ul.nav {
+  width: 60%;
+  margin: 0 auto 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #39A2DB;
+  border-radius: 2rem;
+  padding-left: 0px;
+  @media (max-width: 768px) {
+    width: 90%;
+  }
+}
+ 
+ul.nav li {
+  width: 50%;
+  padding: 1rem;
+  list-style: none;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.7s;
+}
+ 
+ul.nav li:first-child {
+  border-bottom-left-radius: 2rem;
+  border-top-left-radius: 2rem;
+}
+ 
+ul.nav li:last-child {
+  border-bottom-right-radius: 2rem;
+  border-top-right-radius: 2rem;
+}
+ 
+ul.nav li:hover {
+  background: rgba(50, 224, 196, 0.15);
+}
+ 
+ul.nav li.active {
+  background: #39A2DB;
+}
+ 
+/* Tab Content Styles */
+.TabContent {
+  font-size: 2rem;
+  text-align: center;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.container > h3 {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.parent {
+ 
+  margin: 1rem;
+  padding: 2rem 2rem;
+  text-align: left;
+}
+.child {
+  display: inline-block;
+  padding: 1rem 1rem;
+  vertical-align: middle;
+}

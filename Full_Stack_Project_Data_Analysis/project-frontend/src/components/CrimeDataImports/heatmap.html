@@ -1,0 +1,493 @@
+<html xmlns="http://www.w3.org/1999/html">
+
+<head>
+  <title>
+    COVID and Crime Data Visualizer
+  </title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Karla:wght@200&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin="" />
+
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
+
+  <!-- Include Leaflet.heat from CDN -->
+  <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+
+  <style>
+    body {
+      background: linear-gradient(359deg, #691225, #32427c, #1a1a1a, #1a1a1a) no-repeat center center fixed;
+      background-size: 200% 200%;
+      background-position: 0% 40%;
+      transition: ease-out background-position 300ms;
+      backdrop-filter: blur(1.5rem);
+    }
+
+    #map_wrapper {
+      top: 64px;
+      position: absolute;
+      padding: 20px;
+      width: 1220px;
+      border-radius: 10px;
+      background-color: rgba(37, 37, 42, 0.75);
+      box-shadow: 2px 8px 50px -3px rgb(0, 0, 0);
+    }
+
+    #map {
+      width: 1000px;
+      height: 600px;
+      border: 3px solid white;
+      border-radius: 10px;
+    }
+
+    #crime_type{
+      position: absolute;
+      left: 10px;
+      top: 45px;
+      overflow-y: auto;
+      color: white;
+      height: 240px;
+      width: 150px;
+      background-color: rgba(37, 37, 42, 0.75);
+      font-size: 14px;
+      font-family: 'Karla', sans-serif;
+      text-shadow: 0px 1px 4px #000000;
+      font-weight: 900;
+    }
+
+    select[multiple]:focus, option:checked {
+      background: linear-gradient(45deg, #ff2a5f, #6b8dff, #1a1a1a, #1a1a1a);
+      background-size: 400% 400%;
+      transition: ease-out background 200ms;
+    }
+
+    select[multiple]:focus-within{
+      background: #fff;
+    }
+
+    #crime_type:hover{
+      transform: scale(1.02);
+      background-color: rgba(49, 49, 52, 0.47);
+      transition: ease-out transform 200ms;
+    }
+
+    .crime_type_dropdown{
+      position: absolute;
+      left:1054px;
+      top:165px;
+      float: right;
+      width: 150px;
+      height: 280px;
+      padding: 10px;
+      align-content: center;
+      border-radius: 15px;
+      background-color: rgba(25, 25, 28, 0.51);
+      box-shadow: 4px 4px #6b8dff;
+      text-align: center;
+    }
+
+    .crime_type_dropdown:hover{
+      transform: scale(1.02);
+      background-color: rgba(49, 49, 52, 0.47);
+      transition: ease-out transform 200ms;
+    }
+
+    .dateslider{
+      position: absolute;
+      left:1054px;
+      top:80px;
+      float: right;
+      width: 170px;
+      padding: 10px 0px 10px 0px;
+      border-radius: 15px;
+      background-color: rgba(25, 25, 28, 0.51);
+      box-shadow: 4px 4px #6b8dff;
+      text-align: center;
+    }
+
+    .dateslider:hover {
+      transform: scale(1.02);
+      background-color: rgba(49, 49, 52, 0.47);
+      transition: ease-out transform 200ms;
+    }
+
+    .slider {
+      width: 140px;
+      height: 20px;
+      background: linear-gradient(to right, #ff2a5f 0%, #ff2a5f 0%, #6b8dff 0%, #fff 0%, #fff 100%);
+      transition: background 450ms ease-in, all .2s ease-in-out;
+      -webkit-appearance: none;
+      border-radius: 25px;
+    }
+
+    .slider::-webkit-slider-thumb{
+      cursor: pointer;
+      appearance: none;
+      height: 25px;
+      width: 25px;
+      background-color: #6b8dff;
+      border-radius: 50%;
+      border: 3px solid rgb(255, 255, 255);
+    }
+
+    .slider::-webkit-slider-thumb:hover {
+      transform: scale(1.1);
+      background-color: #9eb3ff;
+      transition: ease-out transform 200ms;
+    }
+
+    #date{
+      color: #fff;
+      font-size: 24px;
+      font-family: 'Karla', sans-serif;
+      text-shadow: 0px 1px 4px #000000;
+      font-weight: 900;
+    }
+
+    .text{
+      color: #fff;
+      font-size: 24px;
+      font-family: 'Karla', sans-serif;
+      text-shadow: 0px 1px 4px #000000;
+      font-weight: 900;
+    }
+
+    #filters{
+      position: absolute;
+      left:1054px;
+      top:20px;
+      width: 150px;
+      padding: 10px;
+      border-radius: 15px;
+      background-color: rgba(25, 25, 28, 0.51);
+      align-content: center;
+      text-align: center;
+      box-shadow: 4px 4px #6b8dff;
+    }
+
+    #header{
+      position: absolute;
+      width: 500px;
+      padding: 10px;
+      border-radius: 15px;
+      background-color: rgba(37, 37, 42, 0.72);
+      align-content: center;
+      text-align: center;
+    }
+
+    #header:hover{
+      transform: scale(1.02);
+      background-color: #3c3c41;
+      transition: ease-out transform 200ms;
+    }
+
+    #about{
+      position: absolute;
+      right: 10px;
+      width: 70px;
+      padding: 10px;
+      border-radius: 15px;
+      background-color: rgba(37, 37, 42, 0.72);
+      align-content: center;
+      text-align: center;
+    }
+
+    #about:hover{
+      transform: scale(1.05);
+      background-color: #3c3c41;
+      transition: ease-out transform 200ms;
+    }
+
+  </style>
+
+</head>
+
+<body id="body">
+  <!--Header-->
+  <div id="header">
+    <span class="text">Baltimore COVID-19 and Crime Data Visualizer</span>
+  </div>
+
+  <!--Header-->
+  <div id="about">
+    <span class="text">About</span>
+  </div>
+
+  <!--Page Content-->
+  <div id="map_wrapper">
+    <!--Filter Section-->
+    <div id="filters">
+      <span class="text">Data Filters</span>
+    </div>
+    <!--Date Slider-->
+    <div class="dateslider">
+      <div class="value-container">
+        <span class="text">Year:</span>
+        <span id="date">2018</span>
+      </div>
+      <input type="range" min="2018" max="2022" value="2018" class="slider" id="range">
+    </div>
+    <!--Crime Type Dropdown-->
+    <div class="crime_type_dropdown">
+      <span class="text">Crime Type:</span>
+      <select name="crime_type" id="crime_type" multiple>
+        <option value="agg_assault">Aggravated Assault</option>
+        <option value="arson">Arson</option>
+        <option value="auto_theft">Auto Theft</option>
+        <option value="burglary">Burglary</option>
+        <option value="common_assault">Common Assault</option>
+        <option value="homicide">Homicide</option>
+        <option value="larceny">Larceny</option>
+        <option value="larceny_from_auto">Larceny From Auto</option>
+        <option value="rape">Rape</option>
+        <option value="robbery">Robbery</option>
+        <option value="robbery_carjacking">Robbery - Carjacking</option>
+        <option value="robbery_commercial">Robbery - Commercial</option>
+        <option value="shooting">Shooting</option>
+      </select>
+    </div>
+
+    <!--Map-->
+    <div id="map">
+      <script src="leaflet-heat.js"></script>
+      <script src="leaflet.ajax.min.js"></script>
+
+      <script src="crime_points.js"></script>
+      <script src="crime_points_2018.js"></script>
+      <script src="crime_points_2019.js"></script>
+      <script src="crime_points_2020.js"></script>
+      <script src="crime_points_2021.js"></script>
+      <script src="crime_points_2022.js"></script>
+
+      <script src="agg_assault.js"></script>
+      <script src="arson.js"></script>
+      <script src="auto_theft.js"></script>
+      <script src="burglary.js"></script>
+      <script src="common_assault.js"></script>
+      <script src="homicide.js"></script>
+      <script src="larceny.js"></script>
+      <script src="larceny_from_auto.js"></script>
+      <script src="rape.js"></script>
+      <script src="robbery.js"></script>
+      <script src="robbery_carjacking.js"></script>
+      <script src="robbery_commercial.js"></script>
+      <script src="shooting.js"></script>
+
+      <script>
+        // Create the map
+        var map = L.map('map', {
+          center: [39.2904, -76.6122],
+          zoom: 13,
+        });
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+	      subdomains: 'abcd',
+	      maxZoom: 20
+        }).addTo(map);
+        var osmUrl = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png'
+
+        // Show crime data on heatmap
+        //var crime = L.heatLayer(crime_points, {radius: 12, blur: 21, maxZoom: 20});
+        var crime_2018 = L.heatLayer(crime_points_2018, {radius: 12, blur: 15, maxZoom: 19}).addTo(map);
+        var crime_2019 = L.heatLayer(crime_points_2019, {radius: 12, blur: 15, maxZoom: 19});
+        var crime_2020 = L.heatLayer(crime_points_2020, {radius: 12, blur: 15, maxZoom: 19});
+        var crime_2021 = L.heatLayer(crime_points_2021, {radius: 12, blur: 15, maxZoom: 19});
+        var crime_2022 = L.heatLayer(crime_points_2022, {radius: 12, blur: 15, maxZoom: 19});
+
+        var output = document.getElementById("date");
+        var body = document.getElementById("body");
+
+        var current_layers = [];
+
+        // Date slider
+        var slider = document.getElementById("range").oninput = function(){
+          var value = (this.value-this.min)/(this.max-this.min)*100
+          this.style.background = 'linear-gradient(to right, #ff2a5f 0%, #6b8dff, ' + value + '%, #fff ' + value + '%, #fff 100%)'
+          output.innerHTML = this.value;
+
+          // Only show crime data from the specified year
+          switch (this.value){
+            case "2018":
+              map.eachLayer(function (layer) {
+                  if (osmUrl != layer._url){map.removeLayer(layer)};
+              });
+              current_layers.pop();
+              current_layers.push(crime_2018);
+
+              body.style.backgroundPosition = "0% 40%";
+              break;
+            case "2019":
+              map.eachLayer(function (layer) {
+                  if (osmUrl != layer._url){map.removeLayer(layer)};
+              });
+              current_layers.pop();
+              current_layers.push(crime_2019);
+
+              body.style.backgroundPosition = "0% 50%";
+              break;
+            case "2020":
+              map.eachLayer(function (layer) {
+                  if (osmUrl != layer._url){map.removeLayer(layer)};
+              });
+              current_layers.pop();
+              current_layers.push(crime_2020);
+
+              body.style.backgroundPosition = "0% 60%";
+              break;
+            case "2021":
+              map.eachLayer(function (layer) {
+                  if (osmUrl != layer._url){map.removeLayer(layer)};
+              });
+              current_layers.pop();
+              current_layers.push(crime_2021);
+
+              body.style.backgroundPosition = "0% 70%";
+              break;
+            case "2022":
+              map.eachLayer(function (layer) {
+                  if (osmUrl != layer._url){map.removeLayer(layer)};
+                });
+              current_layers.pop();
+              current_layers.push(crime_2022);
+
+              body.style.backgroundPosition = "0% 80%";
+              break;
+          }
+
+          // Add all filtered layers to map
+          var layers = L.layerGroup(current_layers);
+          layers.addTo(map);
+        }
+
+        var agg_assault = L.heatLayer(agg_assault, {radius: 12, blur: 15, maxZoom: 19});
+        var arson = L.heatLayer(arson, {radius: 12, blur: 15, maxZoom: 19});
+        var auto_theft = L.heatLayer(auto_theft, {radius: 12, blur: 15, maxZoom: 19});
+        var burglary = L.heatLayer(burglary, {radius: 12, blur: 15, maxZoom: 19});
+        var common_assault = L.heatLayer(common_assault, {radius: 12, blur: 15, maxZoom: 19});
+        var homicide = L.heatLayer(homicide, {radius: 12, blur: 15, maxZoom: 19});
+        var larceny = L.heatLayer(larceny, {radius: 12, blur: 15, maxZoom: 19});
+        var larceny_from_auto = L.heatLayer(larceny_from_auto, {radius: 12, blur: 15, maxZoom: 19});
+        var rape = L.heatLayer(rape, {radius: 12, blur: 15, maxZoom: 19});
+        var robbery = L.heatLayer(robbery, {radius: 12, blur: 15, maxZoom: 19});
+        var robbery_carjacking = L.heatLayer(robbery_carjacking, {radius: 12, blur: 15, maxZoom: 19});
+        var robbery_commercial = L.heatLayer(robbery_commercial, {radius: 12, blur: 15, maxZoom: 19});
+        var shooting = L.heatLayer(shooting, {radius: 12, blur: 15, maxZoom: 19});
+
+        var crime_type = document.getElementById("crime_type").oninput = function(){
+            switch (this.value) {
+              case "agg_assault":
+                map.eachLayer(function (layer) {
+                  if (osmUrl != layer._url){map.removeLayer(layer)};
+                });
+
+                agg_assault.addTo(map);
+                break;
+              case "arson":
+                map.eachLayer(function (layer) {
+                  if (osmUrl != layer._url){map.removeLayer(layer)};
+                });
+
+                arson.addTo(map);
+                break;
+              case "auto_theft":
+                map.eachLayer(function (layer) {
+                  if (osmUrl != layer._url){map.removeLayer(layer)};
+                });
+
+                auto_theft.addTo(map);
+                break;
+              case "burglary":
+                map.eachLayer(function (layer) {
+                  if (osmUrl != layer._url){map.removeLayer(layer)};
+                });
+
+                burglary.addTo(map);
+                break;
+              case "common_assault":
+                map.eachLayer(function (layer) {
+                  if (osmUrl != layer._url){map.removeLayer(layer)};
+                });
+
+                common_assault.addTo(map);
+                break;
+              case "homicide":
+                map.eachLayer(function (layer) {
+                  if (osmUrl != layer._url){map.removeLayer(layer)};
+                });
+
+                homicide.addTo(map);
+                break;
+              case "larceny":
+                map.eachLayer(function (layer) {
+                  if (osmUrl != layer._url){map.removeLayer(layer)};
+                });
+
+                larceny.addTo(map);
+                break;
+              case "larceny_from_auto":
+                map.eachLayer(function (layer) {
+                  if (osmUrl != layer._url){map.removeLayer(layer)};
+                });
+
+                larceny_from_auto.addTo(map);
+                break;
+              case "rape":
+                map.eachLayer(function (layer) {
+                  if (osmUrl != layer._url){map.removeLayer(layer)};
+                });
+
+                rape.addTo(map);
+                break;
+              case "robbery":
+                map.eachLayer(function (layer) {
+                  if (osmUrl != layer._url){map.removeLayer(layer)};
+                });
+
+                robbery.addTo(map);
+                break;
+              case "robbery_carjacking":
+                map.eachLayer(function (layer) {
+                  if (osmUrl != layer._url){map.removeLayer(layer)};
+                });
+
+                robbery_carjacking.addTo(map);
+                break;
+              case "robbery_commercial":
+                map.eachLayer(function (layer) {
+                  if (osmUrl != layer._url){map.removeLayer(layer)};
+                });
+
+                robbery_commercial.addTo(map);
+                break;
+              case "shooting":
+                map.eachLayer(function (layer) {
+                  if (osmUrl != layer._url){map.removeLayer(layer)};
+                });
+
+                shooting.addTo(map);
+                break;
+              default:
+                map.eachLayer(function (layer) {
+                  if (osmUrl != layer._url){map.removeLayer(layer)};
+                });
+            }
+        }
+
+        // Show popup when map is clicked
+        var popup = L.popup();
+        function onMapClick(e) {
+          popup
+            .setLatLng(e.latlng)
+            .setContent("You clicked the map at " + e.latlng.toString())
+            .openOn(map);
+        }
+        map.on('click', onMapClick);
+
+      </script>
+    </div>
+  </div>
+</body>

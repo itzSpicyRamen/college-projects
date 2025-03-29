@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <title>
+    COVID and Crime Data Visualizer
+  </title>
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin="" />
+
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
+
+  <!-- Include Leaflet.heat from CDN -->
+  <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+
+  <style>
+    body {
+      background-color: #d6ecff;
+    }
+
+    #header {
+      background-color: #98ccfa;
+      height: 20px;
+      position: absolute;
+      top: 0;
+    }
+
+    #footer {
+      background-color: #98ccfa;
+      height: 20px;
+      position: absolute;
+      bottom: 0;
+    }
+
+    #wrapper {
+      padding: 20px;
+    }
+
+    #map {
+      width: 500px;
+      height: 300px;
+      position: absolute;
+      left: 200px;
+      border: 3px solid black;
+    }
+
+    #filters {
+      width: 200px;
+      height: 300px;
+      position: absolute;
+      left: 0px;
+      border: 3px solid black;
+      text-align: center;
+    }
+  </style>
+
+</head>
+
+<body>
+  <!--Header-->
+  <div id="header">
+    COVID and Crime Data Visualizer
+  </div>
+
+  <!--Page Content-->
+  <div id="wrapper">
+
+    <!--Map-->
+    <div id="map">
+      <script>
+        // Create the map
+        var map = L.map('map', {
+          center: [39.2904, -76.6122],
+          zoom: 15
+        });
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Place 10 circles on the map in a line
+        // Later on, we can populate the whole map
+        // with our data
+        for (let i = 0; i < 10; i++) {
+          var circleCenter = [39.2904 + (i * .001), -76.6122];
+
+          var circleOptions = {
+            color: 'red',
+            fillColor: '#f03',
+            fillOpacity: .5
+          };
+          var circle = L.circle(circleCenter, 50, circleOptions);
+          circle.addTo(map);
+        }
+
+        // Show popup when map is clicked
+        var popup = L.popup();
+        function onMapClick(e) {
+          popup
+            .setLatLng(e.latlng)
+            .setContent("You clicked the map at " + e.latlng.toString())
+            .openOn(map);
+        }
+        map.on('click', onMapClick);
+
+      </script>
+    </div>
+
+    <!--Filters-->
+    <div id="filters">
+      <header>Filter Data</header>
+    </div>
+
+  </div>
+
+  <!--Footer-->
+  <div id="footer">
+    COVID and Crime Data Visualizer
+  </div>
+
+</body>
+
+</html>

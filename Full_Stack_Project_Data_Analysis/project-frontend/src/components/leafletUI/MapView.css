@@ -1,0 +1,314 @@
+.leaflet-container {
+  width: 100vw;
+  height: 100vh;
+  font-family: 'Karla', sans-serif;
+}
+
+
+#map_wrapper {
+  left: 320px;
+  top: 20px;
+  position: absolute;
+  padding: 20px;
+  width: 1250px;
+  border-radius: 10px;
+  background-color: rgba(37, 37, 42, 0.75);
+  box-shadow: 2px 8px 50px -3px rgb(0, 0, 0);
+}
+
+#map {
+  width: 1000px;
+  height: 600px;
+  border: 3px solid white;
+  border-radius: 10px;
+}
+
+#crime_type{
+  position: absolute;
+  left: 10px;
+  top: 45px;
+  overflow-y: auto;
+  color: white;
+  height: 40px;
+  width: 150px;
+  background-color: rgba(37, 37, 42, 0.75);
+  font-size: 14px;
+  font-family: 'Karla', sans-serif;
+  text-shadow: 0px 1px 4px #000000;
+  font-weight: 900;
+}
+
+select[multiple]:focus, option:checked {
+  background: linear-gradient(45deg, #ff2a5f, #6b8dff, #1a1a1a, #1a1a1a);
+  background-size: 400% 400%;
+  transition: ease-out background 200ms;
+}
+
+select[multiple]:focus-within{
+  background: #fff;
+}
+
+#crime_type:hover{
+  transform: scale(1.02);
+  background-color: rgba(49, 49, 52, 0.47);
+  transition: ease-out transform 200ms;
+}
+
+.crime_type_dropdown{
+  position: absolute;
+  left:1054px;
+  top:165px;
+  float: right;
+  width: 170px;
+  height: 100px;
+  padding: 10px;
+  align-content: center;
+  border-radius: 15px;
+  background-color: rgba(25, 25, 28, 0.51);
+  box-shadow: 4px 4px #6b8dff;
+  text-align: center;
+}
+
+.crime_type_dropdown:hover{
+  transform: scale(1.02);
+  background-color: rgba(49, 49, 52, 0.47);
+  transition: ease-out transform 200ms;
+}
+
+.dateslider{
+  position: absolute;
+  left:1054px;
+  top:80px;
+  float: right;
+  width: 170px;
+  padding: 10px 0px 10px 0px;
+  border-radius: 15px;
+  background-color: rgba(25, 25, 28, 0.51);
+  box-shadow: 4px 4px #6b8dff;
+  text-align: center;
+}
+
+.dateslider:hover {
+  transform: scale(1.02);
+  background-color: rgba(49, 49, 52, 0.47);
+  transition: ease-out transform 200ms;
+}
+
+.slider {
+  width: 140px;
+  height: 20px;
+  background: linear-gradient(to right, #ff2a5f 0%, #ff2a5f 0%, #6b8dff 0%, #fff 0%, #fff 100%);
+  transition: background 450ms ease-in, all .2s ease-in-out;
+  -webkit-appearance: none;
+  border-radius: 25px;
+}
+
+.slider::-webkit-slider-thumb{
+  cursor: pointer;
+  appearance: none;
+  height: 25px;
+  width: 25px;
+  background-color: #6b8dff;
+  border-radius: 50%;
+  border: 3px solid rgb(255, 255, 255);
+}
+
+.slider::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+  background-color: #9eb3ff;
+  transition: ease-out transform 200ms;
+}
+
+#date{
+  color: #fff;
+  font-size: 24px;
+  font-family: 'Karla', sans-serif;
+  text-shadow: 0px 1px 4px #000000;
+  font-weight: 900;
+}
+
+.text{
+  color: #fff;
+  font-size: 24px;
+  font-family: 'Karla', sans-serif;
+  text-shadow: 0px 1px 4px #000000;
+  font-weight: 900;
+}
+
+#filters{
+  position: absolute;
+  left:1065px;
+  top:20px;
+  width: 150px;
+  padding: 10px;
+  border-radius: 15px;
+  align-content: center;
+  text-align: center;
+}
+
+#header{
+  position: absolute;
+  width: 500px;
+  padding: 10px;
+  border-radius: 15px;
+  background-color: rgba(37, 37, 42, 0.72);
+  align-content: center;
+  text-align: center;
+  top: 20px;
+  left: 10px;
+}
+
+#header:hover{
+  transform: scale(1.02);
+  background-color: #3c3c41;
+  transition: ease-out transform 200ms;
+}
+
+#about{
+  position: absolute;
+  right: 10px;
+  width: 70px;
+  padding: 10px;
+  border-radius: 15px;
+  background-color: rgba(37, 37, 42, 0.72);
+  align-content: center;
+  text-align: center;
+}
+
+#about:hover{
+  transform: scale(1.05);
+  background-color: #3c3c41;
+  transition: ease-out transform 200ms;
+}
+
+#gender{
+  position: absolute;
+  left: 10px;
+  top: 45px;
+  overflow-y: auto;
+  color: white;
+  height: 40px;
+  width: 150px;
+  background-color: rgba(37, 37, 42, 0.75);
+  font-size: 14px;
+  font-family: 'Karla', sans-serif;
+  text-shadow: 0px 1px 4px #000000;
+  font-weight: 900;
+}
+
+#gender:hover{
+  transform: scale(1.02);
+  background-color: rgba(49, 49, 52, 0.47);
+  transition: ease-out transform 200ms;
+}
+
+.gender_dropdown{
+  position: absolute;
+  left:1054px;
+  top:275px;
+  float: right;
+  width: 170px;
+  height: 100px;
+  padding: 10px;
+  align-content: center;
+  border-radius: 15px;
+  background-color: rgba(25, 25, 28, 0.51);
+  box-shadow: 4px 4px #6b8dff;
+  text-align: center;
+}
+
+.gender_dropdown:hover{
+  transform: scale(1.02);
+  background-color: rgba(49, 49, 52, 0.47);
+  transition: ease-out transform 200ms;
+}
+
+#district{
+  position: absolute;
+  left: 10px;
+  top: 45px;
+  overflow-y: auto;
+  color: white;
+  height: 40px;
+  width: 150px;
+  background-color: rgba(37, 37, 42, 0.75);
+  font-size: 14px;
+  font-family: 'Karla', sans-serif;
+  text-shadow: 0px 1px 4px #000000;
+  font-weight: 900;
+}
+
+#district:hover{
+  transform: scale(1.02);
+  background-color: rgba(49, 49, 52, 0.47);
+  transition: ease-out transform 200ms;
+}
+
+.district_dropdown{
+  position: absolute;
+  left:1054px;
+  top:385px;
+  float: right;
+  width: 170px;
+  height: 100px;
+  padding: 10px;
+  align-content: center;
+  border-radius: 15px;
+  background-color: rgba(25, 25, 28, 0.51);
+  box-shadow: 4px 4px #6b8dff;
+  text-align: center;
+}
+
+.district_dropdown:hover{
+  transform: scale(1.02);
+  background-color: rgba(49, 49, 52, 0.47);
+  transition: ease-out transform 200ms;
+}
+
+.crimeform{
+  position: absolute;
+  left:1054px;
+  top:495px;
+  float: right;
+  width: 170px;
+  height: 100px;
+  padding: 10px;
+  align-content: center;
+  border-radius: 15px;
+  background-color: rgba(25, 25, 28, 0.51);
+  box-shadow: 4px 4px #6b8dff;
+  text-align: center;
+}
+
+.crimeform:hover{
+  transform: scale(1.02);
+  background-color: rgba(49, 49, 52, 0.47);
+  transition: ease-out transform 200ms;
+}
+
+button{
+  position: absolute;
+  left: 10px;
+  top: 30px;
+  overflow-y: auto;
+  color: white;
+  height: 40px;
+  width: 150px;
+  border-color: gray;
+  border-width: 1px;
+  background-color: rgba(37, 37, 42, 0.75);
+  font-size: 14px;
+  font-family: 'Karla', sans-serif;
+  text-shadow: 0px 1px 4px #000000;
+  font-weight: 900;
+}
+
+button:hover{
+  transform: scale(1.02);
+  background-color: rgba(49, 49, 52, 0.47);
+  transition: ease-out transform 200ms;
+}
+
+button:active {
+  background-color: rgba(123, 123, 138, 0.47);
+}

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Fetch and Graph CSV</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+  </head>
+  <body>
+   <div>
+    <canvas id="chart" width="50" height="300"></canvas>
+</div>
+<div>
+    <canvas id="chart2" width="50" height="300"></canvas>
+</div>
+<div>
+    <canvas id="chart3" width="50" height="300"></canvas>
+</div>
+    <script>
+        const years=[2018,2019,2020,2021,2022]; 
+        const covidYears=[2020,2021,2022];   
+        const crimes=['COMMON ASSAULT', 'LARCENY', 'AGG. ASSAULT', 'ROBBERY', 'AUTO THEFT', 'ROBBERY - CARJACKING', 
+        'BURGLARY', 'LARCENY FROM AUTO', 'RAPE', 'SHOOTING', 'HOMICIDE', 'ROBBERY - COMMERCIAL', 'ARSON'] ;
+        let first_year=0; //crime from 2018
+        let second_year=0;  //crime from 2019
+        let third_year=0; //crime from 2020
+        let fourth_year=0; //crime from 2021
+        let fifth_year=0; //crime from 2022
+
+        let crime1=0;
+        let crime2=0;
+        let crime3=0;
+        let crime4=0;
+        let crime5=0;
+        let crime6=0;
+        let crime7=0;
+        let crime8=0;
+        let crime9=0;
+        let crime10=0;
+        let crime11=0;
+        let crime12=0;
+        let crime13=0;
+
+        let covidDate1=0;
+        let covidDate2=0;
+        let covidDate3=0;
+        Promise.all([chartIt(),chartIt2(), chartIt3()]);
+        //chartIt2();
+
+
+        async function chartIt(){
+            await getData();
+            const ytemps = [first_year,second_year,third_year,fourth_year,fifth_year];   
+            const ctx = document.getElementById('chart').getContext('2d');
+            const myChart = new Chart(ctx, {
+        
+                type: 'line',
+                data: {
+                    labels: years,
+                    datasets: [{
+                        label: 'Total Crimes Per Year',
+                        data: ytemps,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+
+                        y: {
+                            beginAtZero: false
+                        }
+                    }
+                }
+            });
+
+        
+        }
+        //types of crimes will go here
+        async function chartIt2(){
+            await getData();
+            const xval = [crime1,crime2,crime3,crime4,crime5,crime6,crime7,crime8,crime9,crime10,crime11,crime12,crime13];   
+            const ctx = document.getElementById('chart2').getContext('2d');
+            const myChart = new Chart(ctx, {
+        
+                type: 'bar',
+                data: {
+                    labels: crimes,
+                    datasets: [{
+                        label: 'Crimes From 2018-2022',
+                        data: xval,
+                        backgroundColor: [
+                            'rgba(25, 199, 132, 0.2)',
+                            
+                        ],
+                        borderColor: [
+                            'rgba(25, 199, 132, 1)',
+                            
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+
+                        y: {
+                            beginAtZero: false
+                        }
+                    }
+                }
+            });
+
+        }
+
+        //types of crimes will go here
+        async function chartIt3(){
+            await getData();
+            const xval = [covidDate1,covidDate2,covidDate3];   
+            const ctx = document.getElementById('chart3').getContext('2d');
+            const myChart = new Chart(ctx, {
+        
+                type: 'bar',
+                data: {
+                    labels:covidYears,
+                    datasets: [{
+                        label: 'COVID cases per year',
+                        data: xval,
+                        backgroundColor: [
+                            'rgba(252, 190, 102, 0.2)',
+                            
+                        ],
+                        borderColor: [
+                            'rgba(252, 190, 102, 1)',
+                            
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+
+                        y: {
+                            beginAtZero: false
+                        }
+                    }
+                }
+            });
+
+        }
+      //asynchronou function making asynchronous calls using the await key
+
+      getData();
+      async function getData(){
+            const response = await fetch('Part_1_Crime_Data_.csv');
+            const response2 = await fetch('MDCOVID19_CasesByCounty.csv');
+            //turning the data into text format
+            const data = await response.text();
+            const covid = await response2.text();
+            //splitting the text data up based on new space
+            //deletes the 0th element and gives me copy of array from index 1 onward
+            const table = data.split('\n').slice(1)
+            const covidTable= covid.split('\n').slice(1)
+            //forEach is a higher order function that allows you to apply something to ecvery element of the array
+            //each element of the array is represented by row
+            let a=0;//for 2018
+            let b=0;//for 2019
+            let c=0;//for 2020
+            let d=0;//for 2021
+            let e= 0; //for 2022 
+           let comAssault=0; 
+           let larc=0;
+           let aggAssault=0;
+           let rob=0;
+           let autoTheft=0;
+           let robCar=0;
+           let burg=0;
+           let larcAuto=0;
+           let rape=0;
+           let shoot=0;
+           let hom=0;
+           let robCom=0;
+           let arson=0;
+            table.forEach(row => {
+                //splitting each row up by commas
+                const columns=row.split(',');
+
+                if (columns[3].includes('2018')) {
+                    first_year=++a;
+                    }
+                else if  (columns[3].includes('2019')) {
+                    second_year=++b;
+                    }
+                    else if  (columns[3].includes('2020')) {
+                    third_year=++c;
+                    }
+                    else if  (columns[3].includes('2021')) {
+                    fourth_year=++d;
+                    }
+                    else if  (columns[3].includes('2022')) {
+                    fifth_year=++e;
+                    }
+                
+
+
+                    if (columns[6].includes('COMMON ASSAULT')) {
+                    crime1=++comAssault;
+                    }
+                    else if  (columns[6].includes('LARCENY FROM AUTO')) {
+                    crime8=++larcAuto;
+                    }
+                else if  (columns[6].includes( 'LARCENY')) {
+                    crime2=++larc;
+                    }
+                    else if  (columns[6].includes('AGG. ASSAULT')) {
+                    crime3=++aggAssault;
+                    }
+                    else if  (columns[6].includes('ROBBERY - CARJACKING')) {
+                    crime6=++robCar;
+                    
+                    }
+                    else if  (columns[6].includes('ROBBERY - COMMERCIAL')) {
+                    crime12=++robCom;
+                    }
+                    else if  (columns[6].includes('ROBBERY')) {
+                    crime4=++rob;
+                    }
+                    else if  (columns[6].includes('AUTO THEFT')) {
+                    crime5=++autoTheft;
+                    }
+                    
+                    else if  (columns[6].includes('BURGLARY')) {
+                    crime7=++burg;
+                    }
+                    
+                    else if  (columns[6].includes('RAPE')) {
+                   crime9=++rape;
+                    }
+                    else if  (columns[6].includes('SHOOTING')) {
+                   crime10=++shoot;
+                    }
+                    else if  (columns[6].includes('HOMICIDE')) {
+                    crime11=++hom;
+                    }
+                    
+                    else if  (columns[6].includes('ARSON')) {
+                    crime13=++arson;
+                    }
+
+
+
+                   
+                    
+            });
+            //let covidCount1=0;
+            //let covidCount2=0;
+            //let covidCount3=0;
+            
+            covidTable.forEach(row => {
+                //splitting each row up by commas
+                const columns=row.split(',');
+                
+                if (columns[1].includes("2020/12/31")) {
+                    var initial =parseInt(columns[4]);
+                    var initial2= parseInt(columns[5]);
+                    covidDate1=initial+initial2;
+                    
+                    }
+                else if (columns[1].includes('2021/12/31')) {
+                    var initial =parseInt(columns[4]);
+                    var initial2= parseInt(columns[5]);
+                    var initial3 = initial+initial2;
+                    covidDate2=initial3-covidDate1;
+                }
+                else if (columns[1].includes('2022/11/11')) {
+                    var initial =parseInt(columns[4]);
+                    var initial2= parseInt(columns[5]);
+                    var initial3 = initial+initial2;
+                    covidDate3=initial3-covidDate2;
+                    }
+
+                //if (columns[6].includes('COMMON ASSAULT')) {
+                  //  crime1=++comAssault;
+                    //}
+                    
+
+
+              
+            });
+            
+            
+        }
+
+        
+     
+    </script>
+  </body>
+</html>
