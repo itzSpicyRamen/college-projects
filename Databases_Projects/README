@@ -1,0 +1,9 @@
+To run my sql scripts, I used the import function provided by XAMPP's phpMyAdmin. 
+
+-For creating the database tables, run createAll.sql
+-For loading the data into the database tales, run loadAll.sql
+-For dropping all the database tables, run dropAll.sql
+
+To run the Jupyter Notebook, connect to a MySQL database via XAMPP's phpMyAdmin or MySQL workbench.
+Create the database tables and load the data as described above. After, the notebook should be
+ready to be ran.

@@ -1,0 +1,23 @@
+DROP TABLE folk_emailAddrs;
+DROP TABLE folk_phoneNums;
+DROP TABLE staff_schedule;
+DROP TABLE staff_administrator;
+DROP TABLE staff_clerk;
+DROP TABLE staff_judge;
+DROP TABLE operating_period;
+DROP TABLE stores;
+DROP TABLE registry;
+DROP TABLE casted_vote;
+DROP TABLE resides_at;
+DROP TABLE ballot_answers;
+DROP TABLE ballot_questions;
+DROP TABLE ballots;
+DROP TABLE staff_monitor;
+DROP TABLE residence;
+DROP TABLE works_at;
+DROP TABLE place_coords;
+DROP TABLE elections_staff;
+DROP TABLE voting_center;
+DROP TABLE place;
+DROP TABLE folk;
+
