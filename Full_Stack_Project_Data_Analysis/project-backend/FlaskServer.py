@@ -5,16 +5,9 @@ import mysql.connector
 import os
 import json
 #added some will delete not used
-from flask import Flask;
-from flask import jsonify, request;
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from flask_cors import CORS
-import os
-from flask import Flask, render_template, request, redirect, url_for
-from flask_sqlalchemy import SQLAlchemy
-from flask import Flask, render_template
-from flask_sqlalchemy import SQLAlchemy 
 import collections
 
 
